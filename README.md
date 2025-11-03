@@ -49,7 +49,7 @@ J'utilise les commandes `$ exit` pour sortir de la VM pui `$ vagrant destroy -f 
 J'exécute exactement les mêmes commandes que pour le challenge 1, mais je termine l'installation avec la commande `$ sudo apt-add-repository ppa:ansible/ansible`
 
 2. ***Notez la version fournie par ce dépôt tiers et comparez avec la version officielle du challenge précédent***  
-Nous avions la version `2.10.8` pour le challenge précédent, la commande `ansible --version` nous indique cette fois-ci la version `2.17.14`. Nous avons une version plus récente sur ce deuxième challenge.
+Nous avions la version `2.10.8` pour le challenge précédent, la commande `$ ansible --version` nous indique cette fois-ci la version `2.17.14`. Nous avons une version plus récente sur ce deuxième challenge.
 
 
 <img width="1920" height="1080" alt="009InstallAnsiblePPA" src="https://github.com/user-attachments/assets/8be84e2f-788a-4456-8a5c-c492a025e52e" />
