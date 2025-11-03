@@ -81,3 +81,103 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `$ an
 
 
 ## Authentification
+
+1. ***Faites le nécessaire pour réussir un `ping` Ansible comme ceci***
+
+- Modification du document `/etc/hosts` :  
+```
+vagrant@control:~$ cat /etc/hosts
+# /etc/hosts
+127.0.0.1       localhost.localdomain   localhost
+192.168.56.10   target01.sandbox.lan    target01
+192.168.56.20   target02.sandbox.lan    target02
+192.168.56.30   target03.sandbox.lan    target03
+```
+
+- Nous pouvons tester la connectivité de base avec nos VM :
+```
+vagrant@control:~$ for HOST in target01 target02 target03; do ping -c 1 -q $HOST; done
+PING target01.sandbox.lan (192.168.56.10) 56(84) bytes of data.
+
+--- target01.sandbox.lan ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.022/0.022/0.022/0.000 ms
+PING target02.sandbox.lan (192.168.56.20) 56(84) bytes of data.
+
+--- target02.sandbox.lan ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 1.151/1.151/1.151/0.000 ms
+PING target03.sandbox.lan (192.168.56.30) 56(84) bytes of data.
+
+--- target03.sandbox.lan ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 1.089/1.089/1.089/0.000 ms
+```
+
+- On collecte ensuite les clés SSH publiques des Target Hosts :
+```
+vagrant@control:~$ ssh-keyscan -t rsa target01 target02 target03 >> .ssh/known_hosts
+# target03:22 SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+# target01:22 SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+# target02:22 SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+```
+
+- Génération d'une paire de clés SSH
+```
+vagrant@control:~$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/vagrant/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/vagrant/.ssh/id_rsa
+Your public key has been saved in /home/vagrant/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:np/+i0VAfnKpVb8okYWh37oUIDru9AiEiBf3eOpaQjA vagrant@control
+The key's randomart image is:
++---[RSA 3072]----+
+|          ..o..  |
+|         o..oo . |
+|E . .  . o+o=   .|
+|oo.o o. . oBo . .|
+|o.o..oo S .+.o . |
+| o. .o.. . .+    |
+|  ..oo  o  o.    |
+|   ++ o  ..+.    |
+|  ...o . .=oo.   |
++----[SHA256]-----+
+```
+
+- Finalement, copie de la clé publique vers les Target Hosts
+```
+vagrant@control:~$ ssh-copy-id vagrant@target01
+vagrant@control:~$ ssh-copy-id vagrant@target02
+vagrant@control:~$ ssh-copy-id vagrant@target03
+```
+
+- On peut maintenant tester le bon fonctionnement de l'authentification sur les Target Hosts
+```
+vagrant@control:~$ ansible all -i target01,target02,target03 -m ping
+target01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+target03 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+target02 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+
