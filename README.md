@@ -64,7 +64,7 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `$ an
 
 - On met à jour les informations des paquets avec `$ sudo dnf update -y`
 
-- On install PIP et Virtualenv : `$ sudo dnf install python3-pip'
+- On install PIP et Virtualenv : `$ sudo dnf install python3-pip`
 
 - On Initialise l'environnement VirtualEnv avec la commande `$ python3 -m venv ~/.venv/ansible`
 
