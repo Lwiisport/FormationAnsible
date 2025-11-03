@@ -22,7 +22,7 @@ J'utilise la commande `$ vagrant up ubuntu`.
 J'utilise la commande `$ vagrant ssh ubuntu`.
 
 3. ***Rafraîchissez les informatrions sur les paquets***  
-J'utilise les commande `$ sudo apt update' et '$ sudo apt upgrade`.
+J'utilise les commande `$ sudo apt update` et `$ sudo apt upgrade`.
 
 4. ***Recherchez le paquet `ansible` avec les options qui vont bien***  
 Je peux voir le paquet à installer avec la commande `$ sudo apt search ansible`.
