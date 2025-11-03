@@ -34,3 +34,16 @@ La commande `ansible --version` nous indique qu'il s'agit de la version 2.10.8 d
 
 8. ***Déconnectez-vous et supprimez la VM***  
 J'utilise les commandes `exit` pour sortir de la VM pui `vagrant destroy -f ubuntu` pour la supprimer.
+
+
+### Challenge n°2
+
+1. ***Répétez le challenge précédent en configurant un dépôt PPA (Personal Package Archive) pour Ansible***  
+J'exécute exactement les mêmes commandes que pour le challenge 1, mais je termine l'installation avec la commande `sudo apt-add-repository ppa:ansible/ansible`
+
+2. ***Notez la version fournie par ce dépôt tiers et comparez avec la version officielle du challenge précédent***  
+Nous avions la version `2.10.8` pour le challenge précédent, la commande `ansible --version` nous indique cette fois-ci la version `2.17.14`. Nous avons une version plus récente sur ce deuxième challenge.
+
+
+### Challenge n°3
+
