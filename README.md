@@ -16,31 +16,31 @@ Capture 2 - Cluster de 4 machines virtuelles : Rocky Linux, Debian, OpenSUSE Lea
 ### Challenge n°1
 
 1. ***Démarrez la VM `ubuntu` depuis le répertoire `atelier-01`***    
-J'utilise la commande `$ vagrant up ubuntu`.
+`$ vagrant up ubuntu`
 
 2. ***Connectez-vous à cette VM***  
-J'utilise la commande `$ vagrant ssh ubuntu`.
+`$ vagrant ssh ubuntu`
 
 3. ***Rafraîchissez les informatrions sur les paquets***  
-J'utilise les commande `$ sudo apt update` et `$ sudo apt upgrade`.
+`$ sudo apt update` et `$ sudo apt upgrade`.
 
 4. ***Recherchez le paquet `ansible` avec les options qui vont bien***  
 Je peux voir le paquet à installer avec la commande `$ sudo apt search ansible`.
 
 5. ***Installer le paquet officiel fourni par la distribution***  
-J'utilise la commande `$ sudo apt install -y ansible`.
+`$ sudo apt install -y ansible`
 
 6. ***Vérifiez si l'installation s'est bien déroulé***  
-La commande `$ ansible --version` permet de voir que l'installation s'est bien déroulé.
+`$ ansible --version` permet de voir que l'installation s'est bien déroulé.
 
 7. ***Notez la version d'Ansible***  
-La commande `$ ansible --version` nous indique qu'il s'agit de la version 2.10.8 d'Ansible.
+`$ ansible --version` nous indique qu'il s'agit de la version `2.10.8` d'Ansible.
 
 <img width="1920" height="1080" alt="008InstallAnsible" src="https://github.com/user-attachments/assets/81f65a1c-bbfc-4f6e-87f9-4b682020f2c9" />
 
 
 9. ***Déconnectez-vous et supprimez la VM***  
-J'utilise les commandes `$ exit` pour sortir de la VM pui `$ vagrant destroy -f ubuntu` pour la supprimer.
+`$ exit` pour sortir de la VM puis `$ vagrant destroy -f ubuntu` pour la supprimer.
 
 
 ### Challenge n°2
@@ -60,7 +60,7 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `$ an
 
 1. ***Lancez un VM Rocky linux et installer Ansible en utilisant PIP et Vitrualenv***
 
-- On créer et se connecte à la VM avec les commandes `$ vagrant up rocky` et `$ vagrant ssh rocky`
+- On créer et se connecte à la VM avec `$ vagrant up rocky` et `$ vagrant ssh rocky`
 
 - On met à jour les informations des paquets avec `$ sudo dnf update -y`
 
