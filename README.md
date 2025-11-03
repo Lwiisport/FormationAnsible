@@ -4,7 +4,11 @@
 
 Capture 1 - Premier cluster de 4 machines virtuelles Alpine Linux
 
+<img width="1920" height="1080" alt="001CaptureRocky" src="https://github.com/user-attachments/assets/b52c9e60-53bc-45c5-af09-e642d0a3f431" />
+
 Capture 2 - Cluster de 4 machines virtuelles : Rocky Linux, Debian, OpenSUSE Leap et Ubuntu.
+
+<img width="1920" height="1080" alt="002CaptureDebian" src="https://github.com/user-attachments/assets/4049b4b8-c973-4b88-9540-7bdb8b801d5c" />
 
 
 ## Installer Ansible
@@ -46,4 +50,22 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `ansi
 
 
 ### Challenge n°3
+
+1. ***Lancez un VM Rocky linux et installer Ansible en utilisant PIP et Vitrualenv***
+
+- On créer et se connecte à la VM avec les commandes `vagrant up rocky` et `vagrant ssh rocky`
+
+- On met à jour les informations des paquets avec `sudo dnf update -y`
+
+- On install PIP et Virtualenv : `sudo dnf install python3-pip' puis `pip install virtualenv`
+
+- On Initialise l'environnement VirtualEnv avec la commande `python3 -m venv ~/.venv/ansible`
+
+- On lance VirtualEnv avec la commande `source ~/.venv/ansible/bin/activate`
+
+- Maintenant que nous somme dans un environnement virtuel, nous mettons à jour PIP pour la première utilisation : `pip install --upgrade pip`
+
+- Nous installons finalement Ansible : `pip install ansible`
+
+- Nous pouvons voir que l'installation s'est bien déroulé avec la commande `ansible --version`. Sa version est `
 
