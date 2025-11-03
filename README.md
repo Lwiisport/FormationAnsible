@@ -36,7 +36,10 @@ La commande `ansible --version` permet de voir que l'installation s'est bien dé
 7. ***Notez la version d'Ansible***  
 La commande `ansible --version` nous indique qu'il s'agit de la version 2.10.8 d'Ansible.
 
-8. ***Déconnectez-vous et supprimez la VM***  
+<img width="1920" height="1080" alt="008InstallAnsible" src="https://github.com/user-attachments/assets/81f65a1c-bbfc-4f6e-87f9-4b682020f2c9" />
+
+
+9. ***Déconnectez-vous et supprimez la VM***  
 J'utilise les commandes `exit` pour sortir de la VM pui `vagrant destroy -f ubuntu` pour la supprimer.
 
 
@@ -47,6 +50,10 @@ J'exécute exactement les mêmes commandes que pour le challenge 1, mais je term
 
 2. ***Notez la version fournie par ce dépôt tiers et comparez avec la version officielle du challenge précédent***  
 Nous avions la version `2.10.8` pour le challenge précédent, la commande `ansible --version` nous indique cette fois-ci la version `2.17.14`. Nous avons une version plus récente sur ce deuxième challenge.
+
+
+<img width="1920" height="1080" alt="009InstallAnsiblePPA" src="https://github.com/user-attachments/assets/8be84e2f-788a-4456-8a5c-c492a025e52e" />
+
 
 
 ### Challenge n°3
@@ -67,5 +74,8 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `ansi
 
 - Nous installons finalement Ansible : `pip install ansible`
 
-- Nous pouvons voir que l'installation s'est bien déroulé avec la commande `ansible --version`. Sa version est `
+- Nous pouvons voir que l'installation s'est bien déroulé avec la commande `ansible --version`. Sa version est `2.15.13`
+
+<img width="1920" height="1080" alt="011AnsibleChallenge3" src="https://github.com/user-attachments/assets/0e3275d8-9d93-4160-886f-37f9162c33e3" />
+
 
