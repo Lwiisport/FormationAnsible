@@ -79,3 +79,5 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `ansi
 <img width="1920" height="1080" alt="011AnsibleChallenge3" src="https://github.com/user-attachments/assets/0e3275d8-9d93-4160-886f-37f9162c33e3" />
 
 
+
+## Authentification
