@@ -181,3 +181,10 @@ target02 | SUCCESS => {
 ```
 
 
+## Configuration de base
+
+1. ***Editez `/etc/hosts` de manière à ce que les Target Hosts soient joignables par leut nom d'hôte simple***
+
+2. 
+
+
