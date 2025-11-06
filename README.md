@@ -184,35 +184,69 @@ target02 | SUCCESS => {
 ## Configuration de base
 
 1. ***Editez `/etc/hosts` de manière à ce que les Target Hosts soient joignables par leut nom d'hôte simple.***
+On ajoute les adresses des Target Hosts dans le fichier `/etc/hosts`
+```
+# /etc/hosts
+127.0.0.1       localhost.localdomain   localhost
+192.168.56.10   control.sandbox.lan     control
+192.168.56.20   target01.sandbox.lan    target01
+192.168.56.30   target02.sandbox.lan    target02
+192.168.56.40   target03.sandbox.lan    target03
+```
 
-2. ***Configurez l'authentification par clé SSH avec les trois Target Hosts.***
+Puis nous essayons de les pings simplement avec leur nom d'hôte simple.
+```
+vagrant@control:~$ ping -c 1 target01
+PING target01.sandbox.lan (192.168.56.20) 56(84) bytes of data.
+64 bytes from target01.sandbox.lan (192.168.56.20): icmp_seq=1 ttl=64 time=0.949 ms
 
-3. ***Installez Ansible.***
+--- target01.sandbox.lan ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.949/0.949/0.949/0.000 ms
+vagrant@control:~$ ping -c 1 target02
+PING target02.sandbox.lan (192.168.56.30) 56(84) bytes of data.
+64 bytes from target02.sandbox.lan (192.168.56.30): icmp_seq=1 ttl=64 time=0.307 ms
 
-4. ***Envoyer un premier `ping` Ansible sans configuration.***
+--- target02.sandbox.lan ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.307/0.307/0.307/0.000 ms
+vagrant@control:~$ ping -c 1 target03
+PING target03.sandbox.lan (192.168.56.40) 56(84) bytes of data.
+64 bytes from target03.sandbox.lan (192.168.56.40): icmp_seq=1 ttl=64 time=0.386 ms
 
-5. ***Créez un répertoire de projet `~/monprojet/`.***
+--- target03.sandbox.lan ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.386/0.386/0.386/0.000 ms
+```
 
-6. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***
+3. ***Configurez l'authentification par clé SSH avec les trois Target Hosts.***
 
-7. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
+4. ***Installez Ansible.***
 
-8. ***Spécifiez un inventaire nommé `hosts`.***
+5. ***Envoyer un premier `ping` Ansible sans configuration.***
 
-9. ***Activer la journalisation dans `~/journal/ansible.log`.***
+6. ***Créez un répertoire de projet `~/monprojet/`.***
 
-10. ***Testez la journalisation.***
+7. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***
 
-11. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
+8. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
 
-12. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
+9. ***Spécifiez un inventaire nommé `hosts`.***
 
-13. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
+10. ***Activer la journalisation dans `~/journal/ansible.log`.***
 
-14. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
+11. ***Testez la journalisation.***
 
-15. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
+12. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
 
-16. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
+13. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
+
+14. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
+
+15. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
+
+16. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
+
+17. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
 
 
