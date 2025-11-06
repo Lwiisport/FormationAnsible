@@ -196,57 +196,126 @@ On ajoute les adresses des Target Hosts dans le fichier `/etc/hosts`
 
 Puis nous essayons de les pings simplement avec leur nom d'hôte simple.
 ```
-vagrant@control:~$ ping -c 1 target01
+vagrant@control:~$ for HOST in target01 target02 target03; do ping -c 1 -q $HOST; done
 PING target01.sandbox.lan (192.168.56.20) 56(84) bytes of data.
-64 bytes from target01.sandbox.lan (192.168.56.20): icmp_seq=1 ttl=64 time=0.949 ms
 
 --- target01.sandbox.lan ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 0.949/0.949/0.949/0.000 ms
-vagrant@control:~$ ping -c 1 target02
+rtt min/avg/max/mdev = 0.883/0.883/0.883/0.000 ms
 PING target02.sandbox.lan (192.168.56.30) 56(84) bytes of data.
-64 bytes from target02.sandbox.lan (192.168.56.30): icmp_seq=1 ttl=64 time=0.307 ms
 
 --- target02.sandbox.lan ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 0.307/0.307/0.307/0.000 ms
-vagrant@control:~$ ping -c 1 target03
+rtt min/avg/max/mdev = 0.935/0.935/0.935/0.000 ms
 PING target03.sandbox.lan (192.168.56.40) 56(84) bytes of data.
-64 bytes from target03.sandbox.lan (192.168.56.40): icmp_seq=1 ttl=64 time=0.386 ms
 
 --- target03.sandbox.lan ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 0.386/0.386/0.386/0.000 ms
+rtt min/avg/max/mdev = 0.763/0.763/0.763/0.000 ms
 ```
+Nous remarquons que les pings fonctionnent correctement.
 
 3. ***Configurez l'authentification par clé SSH avec les trois Target Hosts.***
+On collecte tout d'abord les clés SSH publiques des Target Hosts
+```
+vagrant@control:~$ ssh-keyscan -t rsa target01 target02 target03 >> .ssh/known_hosts
+# target01:22 SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+# target02:22 SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+# target03:22 SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+```
 
-4. ***Installez Ansible.***
+On génère ensuite une paire de clés SSH sur le Control Host
+```
+vagrant@control:~$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/vagrant/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/vagrant/.ssh/id_rsa
+Your public key has been saved in /home/vagrant/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:JQajEVnREWVgYaFGxptkhV1HdRoLIX2m/0DED1A1aWE vagrant@control
+The key's randomart image is:
++---[RSA 3072]----+
+|    o=B*XO=o**+E=|
+|    .==*o. o..BB.|
+|    .oooo .  =+o |
+|     .o. o  . . .|
+|        S    o   |
+|              o  |
+|               o |
+|                .|
+|                 |
++----[SHA256]-----+
+```
 
-5. ***Envoyer un premier `ping` Ansible sans configuration.***
+Finalement on distribue la clé publique sur les Target Hosts 
+```
+vagrant@control:~$ ssh-copy-id vagrant@target01
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/vagrant/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+vagrant@target01's password: 
 
-6. ***Créez un répertoire de projet `~/monprojet/`.***
+Number of key(s) added: 1
 
-7. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***
+Now try logging into the machine, with:   "ssh 'vagrant@target01'"
+and check to make sure that only the key(s) you wanted were added.
 
-8. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
+vagrant@control:~$ ssh-copy-id vagrant@target02
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/vagrant/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+vagrant@target02's password: 
 
-9. ***Spécifiez un inventaire nommé `hosts`.***
+Number of key(s) added: 1
 
-10. ***Activer la journalisation dans `~/journal/ansible.log`.***
+Now try logging into the machine, with:   "ssh 'vagrant@target02'"
+and check to make sure that only the key(s) you wanted were added.
 
-11. ***Testez la journalisation.***
+vagrant@control:~$ ssh-copy-id vagrant@target03
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/vagrant/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+vagrant@target03's password: 
 
-12. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
+Number of key(s) added: 1
 
-13. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
+Now try logging into the machine, with:   "ssh 'vagrant@target03'"
+and check to make sure that only the key(s) you wanted were added.
 
-14. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
+```
 
-15. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
+Je peux maintenant me connecter à chaque machine avec l'authentification par clés SSH.
 
-16. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
+<img width="1920" height="1080" alt="012SSHConfigBase" src="https://github.com/user-attachments/assets/2e32201c-aadf-40d7-ab7d-4ab1d2446683" />
 
-17. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
+5. ***Installez Ansible.***
+
+6. ***Envoyer un premier `ping` Ansible sans configuration.***
+
+7. ***Créez un répertoire de projet `~/monprojet/`.***
+
+8. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***
+
+9. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
+
+10. ***Spécifiez un inventaire nommé `hosts`.***
+
+11. ***Activer la journalisation dans `~/journal/ansible.log`.***
+
+12. ***Testez la journalisation.***
+
+13. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
+
+14. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
+
+15. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
+
+16. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
+
+17. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
+
+18. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
 
 
