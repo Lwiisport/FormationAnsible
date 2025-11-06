@@ -58,7 +58,7 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `$ an
 
 ### Challenge n°3
 
-1. ***Lancez un VM Rocky linux et installer Ansible en utilisant PIP et Vitrualenv***
+1. ***Lancez un VM Rocky linux et installer Ansible en utilisant PIP et Vitrualenv***  
 
 - On créer et se connecte à la VM avec `$ vagrant up rocky` et `$ vagrant ssh rocky`
 
@@ -82,7 +82,7 @@ Nous avions la version `2.10.8` pour le challenge précédent, la commande `$ an
 
 ## Authentification
 
-1. ***Faites le nécessaire pour réussir un `ping` Ansible comme ceci***
+1. ***Faites le nécessaire pour réussir un `ping` Ansible comme ceci***  
 
 - Modification du document `/etc/hosts` :  
 ```
@@ -183,7 +183,7 @@ target02 | SUCCESS => {
 
 ## Configuration de base
 
-1. ***Editez `/etc/hosts` de manière à ce que les Target Hosts soient joignables par leut nom d'hôte simple.***
+1. ***Editez `/etc/hosts` de manière à ce que les Target Hosts soient joignables par leut nom d'hôte simple.***  
 On ajoute les adresses des Target Hosts dans le fichier `/etc/hosts`
 ```
 # /etc/hosts
@@ -215,7 +215,7 @@ rtt min/avg/max/mdev = 0.763/0.763/0.763/0.000 ms
 ```
 Nous remarquons que les pings fonctionnent correctement.
 
-3. ***Configurez l'authentification par clé SSH avec les trois Target Hosts.***
+3. ***Configurez l'authentification par clé SSH avec les trois Target Hosts.***  
 On collecte tout d'abord les clés SSH publiques des Target Hosts
 ```
 vagrant@control:~$ ssh-keyscan -t rsa target01 target02 target03 >> .ssh/known_hosts
@@ -290,13 +290,13 @@ Je peux maintenant me connecter à chaque machine avec l'authentification par cl
 
 <img width="1920" height="1080" alt="012SSHConfigBase" src="https://github.com/user-attachments/assets/2e32201c-aadf-40d7-ab7d-4ab1d2446683" />
 
-5. ***Installez Ansible.***
+5. ***Installez Ansible.***  
 `sudo apt install -y ansible` permet d'installer Ansible sur le Control Host.
 
 <img width="1920" height="1080" alt="013AnsibleConfigBase" src="https://github.com/user-attachments/assets/93500f4c-bb9e-4a93-a7fc-b7394175645e" />
 
 
-6. ***Envoyer un premier `ping` Ansible sans configuration.***
+6. ***Envoyer un premier `ping` Ansible sans configuration.***  
 ```
 vagrant@control:~$ ansible all -i target01,target02,target03 -m ping
 target02 | SUCCESS => {
@@ -322,13 +322,13 @@ target03 | SUCCESS => {
 }
 ```
 
-7. ***Créez un répertoire de projet `~/monprojet/`.***
+7. ***Créez un répertoire de projet `~/monprojet/`.***  
 `$ mkdir ~/monprojet/`
 
-8. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***
+8. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***  
 `$ cd ~/monprojet/` puis `touch ansible.cfg`
 
-10. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
+10. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***  
 ```
 vagrant@control:~/monprojet$ ansible --version | head -n 2
 ansible 2.10.8
@@ -336,13 +336,13 @@ ansible 2.10.8
 ```
 La commande `ansible --version | head -n 2` nous montre bien que le fichier est bien pris en compte.
 
-11. ***Spécifiez un inventaire nommé `hosts`.***
-12. ***Activer la journalisation dans `~/journal/ansible.log`.***
+11. ***Spécifiez un inventaire nommé `hosts`.***  
+12. ***Activer la journalisation dans `~/journal/ansible.log`.***  
 
 <img width="1920" height="1080" alt="014AnsibleCFGConfigBase" src="https://github.com/user-attachments/assets/ab4aa3b9-0259-4d67-9862-937cf5e27c18" />
 
 
-13. ***Testez la journalisation.***
+13. ***Testez la journalisation.***  
 Afin de tester la journalisation, nous pouvons créer un dossier `$ mkdir -v ~/logs/` puis nous pouvons utiliser la commande `$ ansible all -i target01,targetà2,target03 -m ping`
 
 ```
@@ -370,8 +370,8 @@ vagrant@control:~/monprojet$ cat ~/logs/ansible.log
 }
 ```
 
-14. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
-15. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
+14. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***  
+15. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***  
 ```
 vagrant@control:~/monprojet$ cat hosts
 [testlab]
@@ -384,12 +384,12 @@ ansible_user=vagrant
 ```
 Le groupe `[testlab]' est créé avec mes Target Hosts et on définit l'utilisateur `vagrant` pour la connexion.
 
-16. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
+16. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***  
 
 <img width="1920" height="1080" alt="015PingConfigBase" src="https://github.com/user-attachments/assets/5c07fd08-7b9c-42e6-bf3a-ae842eb44999" />
 
 
-17. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
+17. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***  
 ```
 vagrant@control:~/monprojet$ cat hosts 
 [testlab]
@@ -404,19 +404,19 @@ ansible_become=yes
 On ajoute la ligne `ansible_become=yes` pour l'élévation de droits pour l'utilisateur `vagrant` sur les Target Hosts.
 
 
-18. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
+18. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***  
 
 <img width="1920" height="1080" alt="016ShadowConfigBase" src="https://github.com/user-attachments/assets/e6205b57-d352-456d-af7d-4a49020991fb" />
 
 
-19. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
+19. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***  
 
 On utilise les commandes `exit` puis `vagrant destroy -f`.
 
 
 ## Idempotence
 
-1. ***Installez successivement les paquets `tree`, `git` et `nmap` sur toutes les cibles.***
+1. ***Installez successivement les paquets `tree`, `git` et `nmap` sur toutes les cibles.***  
 J'exécute les commandes : `ansible all -m package -a "name=tree"`, `ansible all -m package -a "name=git"` et `ansible all -m package -a "name=nmap"`
 Ceci permet d'installer les paquets `tree`, `git` et `nmap` sur toutes les cibles.
 
@@ -426,7 +426,7 @@ Finalement je m'assure que les paquets ce soit bien installer en testant les com
 
 Les paquets sont bien installé sur toutes les machines cibles.
 
-2. ***Désinstallez successivement ces trois paquets en utilisant le pramamètre supplémentaire `state=absent`.***
+2. ***Désinstallez successivement ces trois paquets en utilisant le pramamètre supplémentaire `state=absent`.***  
 J'exécute maintenant les commandes : `ansible all -m package -a "name=tree state=absent"`, `ansible all -m package -a "name=git state=absent"` et `ansible all -m package -a "name=nmap state=absent"`
 Ceci permet de désinstaller les paquets `tree`, `git` et `nmap` sur toutes les cibles.
 
@@ -436,21 +436,21 @@ Finalement je m'assur que les paquets soit bien désinstaller en testant les com
 
 Les paquets sont bien désinstallé sur toutes les machines cibles
 
-3. ***Copiez le fichier `/etc/fstab` du Control Host vers tous les Target Hosts sous forme d'un fichier `/tmp/test3.txt`.***
+3. ***Copiez le fichier `/etc/fstab` du Control Host vers tous les Target Hosts sous forme d'un fichier `/tmp/test3.txt`.***  
 J'utilise la commande `ansible all -m copy -a "src=/etc/fstab dest=/tmp/test3.txt"`
 
 <img width="1920" height="1080" alt="019CopieIdempotence" src="https://github.com/user-attachments/assets/7f724070-fbae-4d00-ba76-0d5c25266377" />
 
 Le fichier est bien présent sur les Target Hosts.
 
-4. ***Supprimez le fichier `/tmp/test3.txt` sur les Target Hosts en utilisant le module `file` avec le paramètre `state=absent`.***
+4. ***Supprimez le fichier `/tmp/test3.txt` sur les Target Hosts en utilisant le module `file` avec le paramètre `state=absent`.***  
 J'utilise la commande `ansible all -m file -a "dest=/tmp/test3.txt state=absent"`
 
 <img width="1920" height="1080" alt="019CopieIdempotence" src="https://github.com/user-attachments/assets/08fb9990-db6d-41a9-b0c8-407d827d7e4f" />
 
 Les fichiers `test3.txt` sont bien supprimer.
 
-5. ***Enfin, affichez l'espace utilisé par la partition principale sur tous les Target Hosts. Que remarquez-vous ?***
+5. ***Enfin, affichez l'espace utilisé par la partition principale sur tous les Target Hosts. Que remarquez-vous ?***  
 J'utilise la commande `ansible all -a "df -h /"`
 
 <img width="1920" height="1080" alt="019CopieIdempotence" src="https://github.com/user-attachments/assets/19f405aa-8c49-4dc8-95eb-bf3be9bd7f5d" />
