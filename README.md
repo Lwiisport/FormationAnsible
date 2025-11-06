@@ -291,31 +291,124 @@ Je peux maintenant me connecter à chaque machine avec l'authentification par cl
 <img width="1920" height="1080" alt="012SSHConfigBase" src="https://github.com/user-attachments/assets/2e32201c-aadf-40d7-ab7d-4ab1d2446683" />
 
 5. ***Installez Ansible.***
+`sudo apt install -y ansible` permet d'installer Ansible sur le Control Host.
+
+<img width="1920" height="1080" alt="013AnsibleConfigBase" src="https://github.com/user-attachments/assets/93500f4c-bb9e-4a93-a7fc-b7394175645e" />
+
 
 6. ***Envoyer un premier `ping` Ansible sans configuration.***
+```
+vagrant@control:~$ ansible all -i target01,target02,target03 -m ping
+target02 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+target01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+target03 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```
 
 7. ***Créez un répertoire de projet `~/monprojet/`.***
+`$ mkdir ~/monprojet/`
 
 8. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***
+`$ cd ~/monprojet/` puis `touch ansible.cfg`
 
-9. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
+10. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
+```
+vagrant@control:~/monprojet$ ansible --version | head -n 2
+ansible 2.10.8
+  config file = /home/vagrant/monprojet/ansible.cfg
+```
+La commande `ansible --version | head -n 2` nous montre bien que le fichier est bien pris en compte.
 
-10. ***Spécifiez un inventaire nommé `hosts`.***
+11. ***Spécifiez un inventaire nommé `hosts`.***
+12. ***Activer la journalisation dans `~/journal/ansible.log`.***
 
-11. ***Activer la journalisation dans `~/journal/ansible.log`.***
-
-12. ***Testez la journalisation.***
-
-13. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
-
-14. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
-
-15. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
-
-16. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
-
-17. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
-
-18. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
+<img width="1920" height="1080" alt="014AnsibleCFGConfigBase" src="https://github.com/user-attachments/assets/ab4aa3b9-0259-4d67-9862-937cf5e27c18" />
 
 
+13. ***Testez la journalisation.***
+Afin de tester la journalisation, nous pouvons créer un dossier `$ mkdir -v ~/logs/` puis nous pouvons utiliser la commande `$ ansible all -i target01,targetà2,target03 -m ping`
+
+```
+vagrant@control:~/monprojet$ cat ~/logs/ansible.log 
+2025-11-06 10:45:30,584 p=3361 u=vagrant n=ansible | target03 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+2025-11-06 10:45:30,603 p=3361 u=vagrant n=ansible | target02 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+2025-11-06 10:45:30,608 p=3361 u=vagrant n=ansible | target01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+14. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
+15. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
+```
+vagrant@control:~/monprojet$ cat hosts
+[testlab]
+target01
+target02
+target03
+
+[testlab:vars]
+ansible_user=vagrant
+```
+Le groupe `[testlab]' est créé avec mes Target Hosts et on définit l'utilisateur `vagrant` pour la connexion.
+
+16. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
+
+<img width="1920" height="1080" alt="015PingConfigBase" src="https://github.com/user-attachments/assets/5c07fd08-7b9c-42e6-bf3a-ae842eb44999" />
+
+
+17. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
+```
+vagrant@control:~/monprojet$ cat hosts 
+[testlab]
+target01
+target02
+target03
+
+[testlab:vars]
+ansible_user=vagrant
+ansible_become=yes
+```
+On ajoute la ligne `ansible_become=yes` pour l'élévation de droits pour l'utilisateur `vagrant` sur les Target Hosts.
+
+
+18. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
+
+<img width="1920" height="1080" alt="016ShadowConfigBase" src="https://github.com/user-attachments/assets/e6205b57-d352-456d-af7d-4a49020991fb" />
+
+
+19. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
+
+On utilise les commandes `exit` puis `vagrant destroy -f`.
