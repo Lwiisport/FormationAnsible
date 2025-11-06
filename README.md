@@ -412,3 +412,47 @@ On ajoute la ligne `ansible_become=yes` pour l'élévation de droits pour l'util
 19. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
 
 On utilise les commandes `exit` puis `vagrant destroy -f`.
+
+
+## Idempotence
+
+1. ***Installez successivement les paquets `tree`, `git` et `nmap` sur toutes les cibles.***
+J'exécute les commandes : `ansible all -m package -a "name=tree"`, `ansible all -m package -a "name=git"` et `ansible all -m package -a "name=nmap"`
+Ceci permet d'installer les paquets `tree`, `git` et `nmap` sur toutes les cibles.
+
+Finalement je m'assure que les paquets ce soit bien installer en testant les commandes depuis les Target Hosts.
+
+<img width="1920" height="1080" alt="017PaquetIdemPotence" src="https://github.com/user-attachments/assets/23194e5c-1645-4720-b382-0c9a0a990800" />
+
+Les paquets sont bien installé sur toutes les machines cibles.
+
+2. ***Désinstallez successivement ces trois paquets en utilisant le pramamètre supplémentaire `state=absent`.***
+J'exécute maintenant les commandes : `ansible all -m package -a "name=tree state=absent"`, `ansible all -m package -a "name=git state=absent"` et `ansible all -m package -a "name=nmap state=absent"`
+Ceci permet de désinstaller les paquets `tree`, `git` et `nmap` sur toutes les cibles.
+
+Finalement je m'assur que les paquets soit bien désinstaller en testant les commandes depuis les Target Hosts.
+
+<img width="1920" height="1080" alt="018UninstallidemPotence" src="https://github.com/user-attachments/assets/ee8e1872-8665-4f98-b24a-b92dc93d56ea" />
+
+Les paquets sont bien désinstallé sur toutes les machines cibles
+
+3. ***Copiez le fichier `/etc/fstab` du Control Host vers tous les Target Hosts sous forme d'un fichier `/tmp/test3.txt`.***
+J'utilise la commande `ansible all -m copy -a "src=/etc/fstab dest=/tmp/test3.txt"`
+
+<img width="1920" height="1080" alt="019CopieIdempotence" src="https://github.com/user-attachments/assets/7f724070-fbae-4d00-ba76-0d5c25266377" />
+
+Le fichier est bien présent sur les Target Hosts.
+
+4. ***Supprimez le fichier `/tmp/test3.txt` sur les Target Hosts en utilisant le module `file` avec le paramètre `state=absent`.***
+J'utilise la commande `ansible all -m file -a "dest=/tmp/test3.txt state=absent"`
+
+<img width="1920" height="1080" alt="019CopieIdempotence" src="https://github.com/user-attachments/assets/08fb9990-db6d-41a9-b0c8-407d827d7e4f" />
+
+Les fichiers `test3.txt` sont bien supprimer.
+
+5. ***Enfin, affichez l'espace utilisé par la partition principale sur tous les Target Hosts. Que remarquez-vous ?***
+J'utilise la commande `ansible all -a "df -h /"`
+
+<img width="1920" height="1080" alt="019CopieIdempotence" src="https://github.com/user-attachments/assets/19f405aa-8c49-4dc8-95eb-bf3be9bd7f5d" />
+
+On remarque que la commande n'est pas idempotente. On voit l'annotation `CHANGED` à chaque fois que l'on exécute la commande.
