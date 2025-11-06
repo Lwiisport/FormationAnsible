@@ -183,8 +183,36 @@ target02 | SUCCESS => {
 
 ## Configuration de base
 
-1. ***Editez `/etc/hosts` de manière à ce que les Target Hosts soient joignables par leut nom d'hôte simple***
+1. ***Editez `/etc/hosts` de manière à ce que les Target Hosts soient joignables par leut nom d'hôte simple.***
 
-2. 
+2. ***Configurez l'authentification par clé SSH avec les trois Target Hosts.***
+
+3. ***Installez Ansible.***
+
+4. ***Envoyer un premier `ping` Ansible sans configuration.***
+
+5. ***Créez un répertoire de projet `~/monprojet/`.***
+
+6. ***Créez un fichier vide `ansible.cfg` dans ce répertoire.***
+
+7. ***Vérifiez si ce fichier est bien pris en compte par Ansible.***
+
+8. ***Spécifiez un inventaire nommé `hosts`.***
+
+9. ***Activer la journalisation dans `~/journal/ansible.log`.***
+
+10. ***Testez la journalisation.***
+
+11. ***Créez un groupe `[testlab]` avec vos trois Target Hosts.***
+
+12. ***Définissez explicitement l'utilisateur `vagrant` pour la connexion à vos cibles.***
+
+13. ***Envoyez un `ping` Ansible vers le groupe de machines `[all]`.***
+
+14. ***Définissez l'élévation des droits pour l'utilisateur `vagrant` sur les Target Hosts.***
+
+15. ***Affichez la première ligne du fichier `/etc/shadow` sur tous les Target Hosts.***
+
+16. ***Quittez le Control Host et supprimez touts les VM de l'atelier.***
 
 
